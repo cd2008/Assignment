@@ -2,12 +2,12 @@ provider "aws" {
   region = "ap-southeast-1"
 }
 
-# Define an S3 Bucket
+
 resource "aws_s3_bucket" "http_service_bucket" {
   bucket = "part1httpservice"  
 }
 
-# Create a security group for the EC2 instance
+
 resource "aws_security_group" "http_service_sg" {
   name        = "http_service_sg"
   description = "Allow HTTP traffic"
