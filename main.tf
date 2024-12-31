@@ -1,11 +1,10 @@
-# Define the AWS provider
 provider "aws" {
   region = "ap-southeast-1"
 }
 
 # Define an S3 Bucket
 resource "aws_s3_bucket" "http_service_bucket" {
-  bucket = "part1httpservice"  # The S3 bucket to be used in the application
+  bucket = "part1httpservice"  
 }
 
 # Create a security group for the EC2 instance
@@ -31,7 +30,7 @@ resource "aws_security_group" "http_service_sg" {
   }
 }
 
-# Create an IAM role for EC2 to access S3
+
 resource "aws_iam_role" "ec2_s3_role" {
   name = "ec2_s3_role"
 
@@ -49,18 +48,18 @@ resource "aws_iam_role" "ec2_s3_role" {
   })
 }
 
-# Attach the S3 policy to the IAM role
+
 resource "aws_iam_policy_attachment" "ec2_s3_policy_attachment" {
   name       = "ec2-s3-policy-attachment"
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
   roles      = [aws_iam_role.ec2_s3_role.name]
 }
 
-# Create an EC2 instance to deploy the Flask app
+
 resource "aws_instance" "http_service_instance" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Replace with a valid Ubuntu AMI ID
-  instance_type = "t2.micro"               # Use a small EC2 instance for testing
-  key_name      = "your-ssh-key-name"      # Replace with your SSH key name
+  ami           = "ami-0c55b159cbfafe1f0" 
+  instance_type = "t2.micro"              
+  key_name      = "your-ssh-key-name"     
 
 
   user_data = <<-EOF
@@ -80,7 +79,7 @@ resource "aws_instance" "http_service_instance" {
   }
 }
 
-# Create IAM instance profile for EC2 instance
+
 resource "aws_iam_instance_profile" "ec2_s3_profile" {
   name = "ec2_s3_profile"
   role = aws_iam_role.ec2_s3_role.name
